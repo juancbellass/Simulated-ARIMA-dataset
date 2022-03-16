@@ -1,0 +1,14 @@
+Como en UCR Time Series Archive, cada uno de los conjuntos de datos viene en dos partes, 
+una partición TRAIN y una partición TEST.
+
+Por ejemplo, para el conjunto de datos ** AR1 ** tenemos dos archivos, AR1_TEST.csv y AR1_TRAIN.csv.
+
+A diferencia de UCR, estos archivos están en formato .csv.
+
+Al igual que en el Archivo de series temporales de la UCR, hay un ejemplar de series 
+temporales por fila. El primer valor de la fila es la etiqueta de la clase (un número 
+entero entre 1 y el número de clases). El resto de la fila son los valores de muestra 
+de datos. El orden del ejemplar de series de tiempo es aleatorio.
+
+El script con el que se generaron los datos es el de nombre arima_sim-dataset.Rmd que también se 
+encuentra dentro de esta misma carpeta.

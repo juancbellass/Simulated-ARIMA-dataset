@@ -1,0 +1,167 @@
+---
+title: "arima.sim() time series data set (ARIMA.SIM)"
+author: "Juan Carlos Bellassai"
+date: "22/6/2021"
+output: pdf_document
+---
+
+# Data format
+
+As in UCR Time Series Archive, each of the data sets comes in two parts, a TRAIN partition and a TEST partition.
+For exaample, for **ar1** data set we have two files, _ar1_TEST.csv_ and _ar1_TRAIN.csv_
+The two files will be in the same format but are of different sizes.
+
+Unlike UCR, ARIMA.SIM in .csv format.
+
+As in UCR Time Series Archive, there is one time series exemplar per row. The first value in the row is the class label (an integer between 1 and the number of classes). The rest of the row are the data sample values. The order of time series exemplar is in random.
+
+
+# AR(P)
+
+```{r}
+# parameters list (classes)
+parameters = c(-.9, -.7, -.5, -.3, -.1, .1, .3, .5, .7, .9)
+
+# create a empty matrix for lead time series
+classes = length(parameters) #
+n = 200  #number of time series per class
+l = 1000 #time series legth 
+AR1_TRAIN = matrix(0, classes*n, l+1) 
+AR1_TEST = matrix(0, classes*n, l+1)
+
+# create time series
+c = 1
+for (cla in 1:classes) {
+  p = parameters[cla]
+  
+  for (i in 1:n){
+    AR1_TRAIN[c,] = c(cla, arima.sim(n=l, list(ar=p), sd=1))
+    AR1_TEST[c,] = c(cla, arima.sim(n=l, list(ar=p), sd=1))
+    c = c+1
+  }
+}
+
+AR1_TRAIN = data.frame(AR1_TRAIN)
+colnames(AR1_TRAIN)[1] = "clase"
+AR1_TEST = data.frame(AR1_TEST)
+colnames(AR1_TEST)[1] = "clase"
+
+```
+
+Let's see an axample for each class. 
+
+```{r}
+c = 0
+for (i in 1:3){
+  ci = c+i
+  plot(as.numeric(AR1_TRAIN[ci,2:l+1]), type="l", col=i, 
+       ylim=c(-7, 7))
+  if (i<classes){par(new=TRUE)}
+  c = c+100
+}
+```
+
+We export as .csv files.
+
+```{r}
+
+```
+
+
+# MA()
+
+```{r}
+# parameters list (classes)
+parameters = c(-.9, -.7, -.5, -.3, -.1, .1, .3, .5, .7, .9)
+
+# create a empty matrix for lead time series
+classes = length(parameters) #
+n = 200  #number of time series per class
+l = 1000 #time series length 
+MA1_TRAIN = matrix(0, classes*n, l+1) 
+MA1_TEST = matrix(0, classes*n, l+1)
+
+# create time series
+c = 1
+for (cla in 1:classes) {
+  p = parameters[cla]
+  
+  for (i in 1:n){
+    MA1_TRAIN[c,] = c(cla, arima.sim(n=l, list(ma=p), sd=1))
+    MA1_TEST[c,] = c(cla, arima.sim(n=l, list(ma=p), sd=1))
+    c = c+1
+  }
+}
+
+MA1_TRAIN = data.frame(MA1_TRAIN)
+colnames(MA1_TRAIN)[1] = "clase"
+MA1_TEST = data.frame(MA1_TEST)
+colnames(MA1_TEST)[1] = "clase"
+```
+
+```{r}
+c = 0
+for (i in 1:3){
+  ci = c+i
+  plot(as.numeric(MA1_TRAIN[ci,2:l+1]), type="l", col=i,
+       ylim=c(-5,5))
+  if (i<classes){par(new=TRUE)}
+  c = c+n
+}
+```
+# ARIMA()
+
+```{r}
+# parameters list (classes)
+parameters = c(-.9, -.7, -.5, -.3, -.1, .1, .3, .5, .7, .9)
+
+# create a empty matrix for lead time series
+classes = length(parameters) #
+n = 200  #number of time series per class
+l = 1000 #time series legth 
+ARI1_TRAIN = matrix(0, classes*n, l+1) 
+ARI1_TEST = matrix(0, classes*n, l+1)
+
+# create time series
+c = 1
+for (cla in 1:classes) {
+  p = parameters[cla]
+  
+  for (i in 1:n){
+    ARI1_TRAIN[c,] = arima.sim(n=l, list(order=c(1,1,0), ar=p)) #el primer valor es cero siempre.
+    ARI1_TRAIN[c,1] = cla #reemplzamos el cero por la clase
+    ARI1_TEST[c,] = arima.sim(n=l, list(order=c(1,1,0), ar=p))
+    ARI1_TEST[c,1] = cla
+    c = c+1
+  }
+}
+
+ARI1_TRAIN = data.frame(ARI1_TRAIN)
+colnames(ARI1_TRAIN)[1] = "clase"
+ARI1_TEST = data.frame(ARI1_TEST)
+colnames(ARI1_TEST)[1] = "clase"
+```
+
+```{r}
+c = 0
+for (i in 1:3){
+  ci = c+i
+  plot(as.numeric(ARI1_TRAIN[ci,2:l+1]), type="l", col=i,
+       ylim=c(-5,5))
+  if (i<classes){par(new=TRUE)}
+  c = c+n
+}
+```
+
+```{r}
+write.csv(AR1_TEST, "C:/Users/Usuario/Google Drive (juancbellassai@mi.unc.edu.ar)/Juanc Doctorado/Base de datos/AR1-MA1-ARIMA_simulados/AR1_TEST-1000.csv", row.names=FALSE)
+write.csv(AR1_TRAIN, "C:/Users/Usuario/Google Drive (juancbellassai@mi.unc.edu.ar)/Juanc Doctorado/Base de datos/AR1-MA1-ARIMA_simulados/AR1_TRAIN-1000.csv", row.names=FALSE)
+```
+```{r}
+write.csv(MA1_TEST, "C:/Users/Usuario/Google Drive (juancbellassai@mi.unc.edu.ar)/Juanc Doctorado/Base de datos/AR1-MA1-ARIMA_simulados/MA1_TEST-1000.csv")
+write.csv(MA1_TRAIN, "C:/Users/Usuario/Google Drive (juancbellassai@mi.unc.edu.ar)/Juanc Doctorado/Base de datos/AR1-MA1-ARIMA_simulados/MA1_TRAIN-1000.csv", row.names=FALSE)
+```
+```{r}
+write.csv(ARI1_TEST, "C:/Users/Usuario/Google Drive (juancbellassai@mi.unc.edu.ar)/Juanc Doctorado/Base de datos/AR1-MA1-ARIMA_simulados/ARIMA_TEST-1000.csv", row.names=FALSE)
+write.csv(ARI1_TRAIN, "C:/Users/Usuario/Google Drive (juancbellassai@mi.unc.edu.ar)/Juanc Doctorado/Base de datos/AR1-MA1-ARIMA_simulados/ARIMA_TRAIN-1000.csv", row.names=FALSE)
+```
