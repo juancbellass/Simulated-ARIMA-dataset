@@ -1,14 +1,14 @@
-Como en UCR Time Series Archive, cada uno de los conjuntos de datos viene en dos partes, 
-una partición TRAIN y una partición TEST.
+As in the UCR Time Series Archive, each of the data sets comes in two parts,
+a TRAIN partition and a TEST partition.
 
-Por ejemplo, para el conjunto de datos ** AR1 ** tenemos dos archivos, AR1_TEST.csv y AR1_TRAIN.csv.
+For example, for the dataset AR1 we have two files, AR1_TEST.csv and AR1_TRAIN.csv.
 
-A diferencia de UCR, estos archivos están en formato .csv.
+Unlike UCR, these files are in .csv format.
 
-Al igual que en el Archivo de series temporales de la UCR, hay un ejemplar de series 
-temporales por fila. El primer valor de la fila es la etiqueta de la clase (un número 
-entero entre 1 y el número de clases). El resto de la fila son los valores de muestra 
-de datos. El orden del ejemplar de series de tiempo es aleatorio.
+As in the Time Series Archive of the UCR, there is a sample of series
+times per row. The first value in the row is the class label (a number
+integer between 1 and the number of classes). The rest of the row are the sample values
+of data. The order of the time series instance is random.
 
-El script con el que se generaron los datos es el de nombre arima_sim-dataset.Rmd que también se 
-encuentra dentro de esta misma carpeta.
+The script with which the data was generated is the one named arima_sim-dataset.html, which is also
+located inside this same folder.
